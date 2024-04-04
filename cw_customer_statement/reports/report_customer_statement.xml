@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Transport Request Report -->
+    <template id="report_customer_statement_template_detail">
+        <t t-call="web.basic_layout">
+        <t t-set="company_id" t-value="doc._get_statement_company()"/>
+        <style>
+            .table_doc {
+                padding: 2px;
+                vertical-align: middle;
+            }
+            .table_doc thead tr th {
+                padding: 2px;
+                height: 30px;
+                border-top:2px solid black;
+                border-left : 0 hidden black;
+                border-right : 0 hidden black;
+                border-bottom-width: 0;
+                vertical-align: middle;
+            }
+            .table_doc tbody tr td {
+                padding: 2px;
+                height: 18px;
+                border-left : 0 hidden black;
+                border-right : 0 hidden black;
+                vertical-align: middle;
+            }
+        </style>
+        <div class="header" style="font-size:12px">
+            <!-- header start -->
+            <div class="row">
+                <div class="col-2 text-start">
+                    <img t-if="company_id.logo" t-att-src="image_data_uri(company_id.logo)"
+                        style="max-height:54pt;max-width:90%;margin-bottom:10px" alt="Company Logo"/>
+                </div>
+                <div class="col-6 text-start">
+                    <t t-if="doc.category_id and doc.category_id[0].gjs_company_name and doc.category_id[0].gjs_address">
+                        <span t-field="doc.category_id[0].gjs_company_name"/><br/>
+                        <span t-field="doc.category_id[0].gjs_address"/>
+                    </t>
+                    <t t-elif="company_id">
+                        <span t-field="company_id.with_context(customer_statement=True).partner_id"
+                            t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}'/>
+                        Tel: 34699964, Fax: 34269995<br/>
+                    </t>
+                    <t t-elif="doc.category_id.name == 'CW'">
+                        Continental Wines Limited <br/>
+                        Unit B &amp; F, 4/F, Sunview Industrial Building<br/>
+                        3 On Yip Street, Siu Sai Wan, Hong Kong<br/>
+                        Tel: 34699964<br/>
+                        Fax: 34269995<br/>
+                        Email: admin@continentalwines.com.hk
+                    </t>
+                    <t t-elif="doc.category_id.name == 'VW'">
+                        Victoria Wines Limited<br/>
+                        Unit B &amp; F, 4/F, Sunview Industrial Building<br/>
+                        3 On Yip Street, Siu Sai Wan, Hong Kong<br/>
+                        Tel: 34699964<br/>
+                        Fax: 34269995<br/>
+                        Email: admin@victoriawines.com
+                    </t>
+                </div>
+                <div class="col-3 offset-1 text-end">
+                    <h4><b>Customer Statement</b></h4>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <table width="100%">
+                    <tr>
+                        <td width="65%" style="border: 1px solid white" rowspan="3">
+                            <span t-field="doc.commercial_partner_id"
+                                t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}' />
+                        </td>
+                        <td width="20%" style="border: 1px solid white">Aging Date:</td>
+                        <td width="15%" style="border: 1px solid white">
+                            <span t-esc="datetime.datetime.now().strftime('%d-%m-%Y')"/></td>
+                    </tr>
+                    <tr>
+                        <td width="20%" style="border: 1px solid white">Sales Representative:</td>
+                        <td width="15%" style="border: 1px solid white"><span t-field="doc.user_id"/></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="border: 1px solid white"></td>
+                    </tr>
+                </table>
+            </div>
+            <!-- <div class="row">
+                <div t-field="doc.commercial_partner_id"
+                    t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}' />
+            </div> -->
+        </div>
+        <div class="page" style="font-size:12px">
+            <div class="row">
+                <table class="table_doc">
+                    <thead>
+                        <tr>
+                            <th width="12%" class="text-start">Doc. Date</th>
+                            <th width="12%" class="text-start">Due Date</th>
+                            <th width="15%" class="text-start">Document</th>
+                            <th width="15%" class="text-start">PO No.</th>
+                            <th width="20%" class="text-start">Details</th>
+                            <th width="13%" class="text-end">Amount</th>
+                            <th width="13%" class="text-end">Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-set="po_number_field" t-value="doc._get_studio_po_number_field()"/>
+                        <t t-set="invoice_line" t-value="doc.unreconciled_aml_ids.filtered(lambda x: x.amount_currency)"/>
+                        <t t-set="cumulative" t-value="0.00"/>
+                        <t t-foreach="invoice_line.sorted(lambda x: x.move_id.invoice_origin)" t-as="line">
+                            <tr style="border-bottom:1px dotted black">
+                                <td class=""><span t-field="line.move_id.invoice_date"/></td>
+                                <td class=""><span t-field="line.move_id.invoice_date_due"/></td>
+                                <td class=""><span t-field="line.move_id.invoice_origin"/></td>
+                                <td class=""><span t-esc="line.move_id._get_inv_po_number(field_name=po_number_field)"/></td>
+                                <td class=""><span t-field="line.move_id.name"/></td>
+                                <td class="text-end"><span t-field="line.amount_residual"/></td>
+                                <t t-set="cumulative" t-value="line.amount_residual + cumulative"/>
+                                <td class="text-end"><span t-out="cumulative"
+                                    t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/></td>
+                            </tr>
+                        </t>
+                        <tr style="border-top:2px solid black;border-bottom: 0 hidden black;">
+                            <td class="" colspan="6"><strong>Total</strong></td>
+                            <td class="text-end"><strong t-out="cumulative"
+                                t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <t t-set="ar_data" t-value="doc._get_aged_receivable_data()"/>
+            <div class="row mt-4" t-if="ar_data">
+                <table class="table_doc">
+                    <thead>
+                        <tr>
+                            <th width="9%"></th>
+                            <th width="13%" class="text-end">Balance Due</th>
+                            <th width="13%" class="text-end">Current</th>
+                            <th width="13%" class="text-end">0-30<br/>Overdue</th>
+                            <th width="13%" class="text-end">31-60<br/>Overdue</th>
+                            <th width="13%" class="text-end">61-90<br/>Overdue</th>
+                            <th width="13%" class="text-end">91-180<br/>Overdue</th>
+                            <th width="13%" class="text-end">181+<br/>Overdue</th>
+                        </tr>
+                    </thead>
+                    <t t-foreach="ar_data" t-as="ar">
+                        <tr style="border-top:2px solid black">
+                            <td><strong>Total</strong></td>
+                            <td class="text-end"><span t-esc="ar.get('total')"
+                                t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/></td>
+                            <td class="text-end"><span t-esc="ar.get('period0')"
+                                t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/></td>
+                            <td class="text-end"><span t-esc="ar.get('period1')"
+                                t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/></td>
+                            <td class="text-end"><span t-esc="ar.get('period2')"
+                                t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/></td>
+                            <td class="text-end"><span t-esc="ar.get('period3')"
+                                t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/></td>
+                            <td class="text-end"><span t-esc="ar.get('period4')"
+                                t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/></td>
+                            <td class="text-end"><span t-esc="ar.get('period5')"
+                                t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/></td>
+                        </tr>
+                    </t>
+                    <tr style="height:10px;border-top:1px dotted black;border-bottom:2px solid black">
+                        <td colspan="8"> </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- <div class="row mt-4">
+                Please settle the invoice by cheque (crossed) and made payable to Continental Wines Limited or by direct deposit to our bank account as follows:<br/><br/>
+            </div> -->
+            
+            <div class="row mt-4">
+                <div class="col-7">
+                    <t t-if="doc.category_id and doc.category_id[0].gjs_bank_information">
+                        <span t-field="doc.category_id[0].gjs_bank_information"/>
+                    </t>
+                    <t t-else="">
+                        <b>Company Name:</b> Continental Wines Limited <br/>
+                        <b>Banker:</b> The Hong Kong and Shanghai Banking Corporation Ltd <br/>
+                        <b>Bank Code:</b> 004 <br/>
+                        <b>Bank A/C:</b> 499-777977-001 <br/>
+                        <b>Swift Code:</b> HSBCHKHHHKH<br/><br/>
+                    </t>
+                    <br/><br/>
+                    
+                    Please quote the customer code and invoice no. when making payment. <br/><br/>
+                    
+                    For direct deposit to our bank account, please inform us the payment by fax to <b>(852) 3426-9995 </b>, or by email to <b>admin@continentalwines.com.hk</b>
+                </div>
+                <div class="col-5 text-center">
+                    <t t-if="doc.category_id and doc.category_id[0].gjs_bank_qr_code">
+                        <img class="img-fluid" t-att-src="image_data_uri(doc.category_id[0].gjs_bank_qr_code)" width="40%"/>
+                    </t>
+                    <t t-else=""><img class="img-fluid" src="/cw_customer_statement/static/src/qrcode.jpeg" width="40%"/></t>
+                </div>
+            </div>
+        </div>
+        </t>
+    </template>
+
+    <template id="report_customer_statement_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-set="lang" t-value="user.lang"/>
+                <t t-call="cw_customer_statement.report_customer_statement_template_detail" t-lang="lang"/>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_customer_statement" model="ir.actions.report">
+        <field name="name">Customer Statement</field>
+        <field name="model">res.partner</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">cw_customer_statement.report_customer_statement_template</field>
+        <field name="report_file">cw_customer_statement.report_customer_statement_template</field>
+        <field name="print_report_name">(object._get_report_customer_statement_filename())</field>
+        <field name="binding_model_id" ref="base.model_res_partner"/>
+        <field name="paperformat_id" ref="cw_customer_statement.paperformat_customer_statement_report"/>
+        <field name="binding_view_types">form</field>
+    </record>
+
+</odoo>

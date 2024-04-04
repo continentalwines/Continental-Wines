@@ -1,0 +1,25 @@
+<odoo>
+    <record id="view_partner_category_list" model="ir.ui.view">
+        <field name="name">res.partner.category.list.cw_customer_statement</field>
+        <field name="model">res.partner.category</field>
+        <field name="inherit_id" ref="base.view_partner_category_list"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='color']" position="before">
+                <field name="gjs_company_name"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_partner_category_form" model="ir.ui.view">
+        <field name="name">res.partner.category.form.cw_customer_statement</field>
+        <field name="model">res.partner.category</field>
+        <field name="inherit_id" ref="base.view_partner_category_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='active']" position="after">
+                <field name="gjs_company_name"/>
+                <field name="gjs_address"/>
+                <field name="gjs_bank_information"/>
+                <field name="gjs_bank_qr_code" widget="image" class="oe_avatar w-auto float-start"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
