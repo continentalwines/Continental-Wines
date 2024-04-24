@@ -64,7 +64,7 @@
                     <h4><b>Customer Statement</b></h4>
                 </div>
             </div>
-            <div class="row mt-2">
+            <div class="row mt-4">
                 <table width="100%">
                     <tr>
                         <td width="65%" style="border: 1px solid white" rowspan="3">
@@ -107,7 +107,7 @@
                         <t t-set="po_number_field" t-value="doc._get_studio_po_number_field()"/>
                         <t t-set="invoice_line" t-value="doc.unreconciled_aml_ids.filtered(lambda x: x.amount_currency)"/>
                         <t t-set="cumulative" t-value="0.00"/>
-                        <t t-foreach="invoice_line.sorted(lambda x: x.move_id.invoice_origin)" t-as="line">
+                        <t t-foreach="invoice_line.sorted(lambda x: x.move_id)" t-as="line">
                             <tr style="border-bottom:1px dotted black">
                                 <td class=""><span t-field="line.move_id.invoice_date"/></td>
                                 <td class=""><span t-field="line.move_id.invoice_date_due"/></td>
