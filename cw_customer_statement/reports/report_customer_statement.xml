@@ -107,10 +107,19 @@
                         <t t-set="po_number_field" t-value="doc._get_studio_po_number_field()"/>
                         <t t-set="invoice_line" t-value="doc.unreconciled_aml_ids.filtered(lambda x: x.amount_currency)"/>
                         <t t-set="cumulative" t-value="0.00"/>
-                        <t t-foreach="invoice_line.sorted(lambda x: x.move_id)" t-as="line">
+                        <t t-foreach="invoice_line.sorted(lambda x: x.date)" t-as="line">
                             <tr style="border-bottom:1px dotted black">
-                                <td class=""><span t-field="line.move_id.invoice_date"/></td>
-                                <td class=""><span t-field="line.move_id.invoice_date_due"/></td>
+                                <td class="">
+                                    <t t-if="line.move_id.move_type in ['out_invoice', 'out_refund']">
+                                        <span t-field="line.move_id.invoice_date"/>
+                                    </t>
+                                    <t t-else=""><span t-field="line.date"/></t>
+                                </td>
+                                <td class="">
+                                    <t t-if="line.move_id.move_type in ['out_invoice', 'out_refund']">
+                                        <span t-field="line.move_id.invoice_date_due"/>
+                                    </t>
+                                </td>
                                 <td class=""><span t-field="line.move_id.invoice_origin"/></td>
                                 <td class=""><span t-esc="line.move_id._get_inv_po_number(field_name=po_number_field)"/></td>
                                 <td class=""><span t-field="line.move_id.name"/></td>
