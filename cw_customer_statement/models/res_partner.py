@@ -4,6 +4,7 @@ from datetime import datetime
 class ResPartnerCategory(models.Model):
     _inherit = "res.partner.category"
 
+    gjs_tags_logo = fields.Image(string="Company Logo")
     gjs_company_name = fields.Char(string="Company Name")
     gjs_address = fields.Text(string="Address")
     gjs_bank_information = fields.Text(string="Bank Information")

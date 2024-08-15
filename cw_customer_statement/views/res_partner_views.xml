@@ -16,6 +16,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='active']" position="after">
                 <field name="gjs_company_name"/>
+                <field name="gjs_tags_logo" widget="image" class="oe_avatar w-auto float-start"/>
                 <field name="gjs_address"/>
                 <field name="gjs_bank_information"/>
                 <field name="gjs_bank_qr_code" widget="image" class="oe_avatar w-auto float-start"/>

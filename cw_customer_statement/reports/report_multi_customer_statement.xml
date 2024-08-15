@@ -29,8 +29,14 @@
             <!-- header start -->
             <div class="row">
                 <div class="col-2 text-start">
-                    <img t-if="company_id.logo" t-att-src="image_data_uri(company_id.logo)"
-                        style="max-height:54pt;max-width:90%;margin-bottom:10px" alt="Company Logo"/>
+                    <t t-if="doc.category_id and doc.category_id[0].gjs_tags_logo">
+                        <img t-att-src="image_data_uri(doc.category_id[0].gjs_tags_logo)"
+                            style="max-height:54pt;max-width:90%;margin-bottom:10px" alt="Tags Logo"/>
+                    </t>
+                    <t t-else="">
+                        <img t-if="company_id.logo" t-att-src="image_data_uri(company_id.logo)"
+                            style="max-height:54pt;max-width:90%;margin-bottom:10px" alt="Company Logo"/>
+                    </t>
                 </div>
                 <div class="col-6 text-start">
                     <t t-if="doc.category_id and doc.category_id[0].gjs_company_name and doc.category_id[0].gjs_address">
