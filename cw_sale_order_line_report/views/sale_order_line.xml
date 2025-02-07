@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="view_sale_order_line_pivot" model="ir.ui.view">
+        <field name="name">view_sale_order_line_pivot</field>
+        <field name="model">sale.order.line</field>
+        <field name="arch" type="xml">
+            <pivot string="Order Line Report">
+                <field name="order_id"/>
+                <field name="product_id"/>
+                <field name="customer_reference"/>
+                <field name="delivery_address"/>
+                <field name="price_total" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="sale_order_line_filter_inherit" model="ir.ui.view">
+        <field name="name">sale_order_line_filter_inherit</field>
+        <field name="model">sale.order.line</field>
+        <field name="inherit_id" ref="sale.view_sales_order_line_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='salesman_id']" position="after">
+                <field name="customer_reference"/>
+                <field name="delivery_address"/>
+            </xpath>
+            <xpath expr="//group/filter[@name='salesperson']" position="after">
+                <filter string="Customer Reference" name="customer_reference" domain="[]" context="{'group_by':'customer_reference'}"/>
+                <filter string="Delivery Address" name="delivery_address" domain="[]" context="{'group_by':'delivery_address'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_sale_order_line_pivot" model="ir.actions.act_window">
+        <field name="name">Order Line Report</field>
+        <field name="res_model">sale.order.line</field>
+        <field name="view_mode">pivot</field>
+        <field name="view_id" ref="view_sale_order_line_pivot"/>
+    </record>
+
+    <menuitem id="menu_order_line_report" name="Order Line Report"
+        parent="sale.menu_sale_report"
+        action="action_sale_order_line_pivot"
+        sequence="20"/>
+</odoo>
