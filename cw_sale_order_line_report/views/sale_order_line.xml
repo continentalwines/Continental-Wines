@@ -37,7 +37,7 @@
         <field name="view_id" ref="view_sale_order_line_pivot"/>
     </record>
 
-    <menuitem id="menu_order_line_report" name="Order Line Report"
+    <menuitem id="menu_order_line_report" name="By Customer"
         parent="sale.menu_sale_report"
         action="action_sale_order_line_pivot"
         sequence="20"/>
