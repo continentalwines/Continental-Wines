@@ -6,7 +6,7 @@
     "license": "AGPL-3",
     "summary": "Custom sale warning date",
     "description": """Custom sale warning date.""",
-    "version": "16.0.1.0.0",
+    "version": "18.0.1.0.0",
     'depends': ['sale', ],
     "data": [
     ],
