@@ -11,6 +11,12 @@ class CrmLead(models.Model):
     quotation_date = fields.Date(string='Quotation Date')
     other_notes = fields.Text(string='Other Notes')
 
+    #studio
+    x_agreed_pricelist_id = fields.Many2one(comodel_name='product.pricelist')
+    x_crm_lead_line_ids = fields.One2many(comodel_name='x_crm_lead_line', inverse_name='x_crm_opportunity_id', string='CRM Lead Lines')
+    x_quotation_date = fields.Date(string='Quotation Date')
+    x_other_notes = fields.Text(string='Other Notes')
+
     def create_pricelist_from_crm(self):
         if self.partner_id.property_product_pricelist.id == 1:
             if self.crm_lead_line_ids:
