@@ -10,7 +10,7 @@
     'depends': [
     	'crm',
     	'sale_management',
-        'stock'
+        'stock',
         'sale_crm',
     ],
     'data': [
