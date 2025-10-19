@@ -1,0 +1,44 @@
+<odoo>
+
+	<record model="ir.ui.view" id="view_crm_lead_form_inherit_crm_cw">
+        <field name="name">crm.lead.form.inherit.crm.cw</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='stage_id']" position="after">
+                <button name="create_pricelist_from_crm" string="Create Pricelist" type="object" invisible="agreed_pricelist_id != 1"/>
+                <button name="update_pricelist_from_crm" string="Update Pricelist" type="object" invisible="agreed_pricelist_id == 1"/>
+
+            </xpath>
+            <xpath expr="//field[@name='team_id']" position="after">
+                <field name="agreed_pricelist_id" string="Agreed Pricelist"/>
+            </xpath>
+            <xpath expr="//form[1]/sheet[1]/notebook[1]" position="inside">
+                <page string="Pricing" name="page_pricing">
+                    <field name="crm_lead_line_ids" widget="section_and_note_one2many">
+                        <list editable="bottom">
+                          <field name="sequence" widget="handle"/>
+                          <field name="product_template_id"/>
+                          <field name="region_id" string="Region" options="{&quot;no_create&quot;:true,&quot;no_open&quot;:true}"/>
+                          <field name="country_id" string="Country" options="{&quot;no_create&quot;:true,&quot;no_open&quot;:true}"/>
+                          <field name="price_wholesale"/>
+                          <field name="price_by_bottle"/>
+                          <field name="price_pouring"/>
+                          <field name="type_selected" string="Selected Price"/>
+                          <field name="notes" string="Internal Notes"/>
+                        </list>
+                    </field>
+                    <group name="group_crm_pricelist">
+                        <field name="quotation_date" string="Quotation Date"/>
+                        <field name="other_notes" string="Other Notes" placeholder="Other notes to be shown on quotation printout"/>
+                        <div name="div_agreed_pricelist">Remember to update any agreed pricing on the customer's Agreed Pricelist</div>
+                        <div class="o_row" name="div_agreed_pricelist_row">
+                          <field name="agreed_pricelist_id"/>
+                        </div>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

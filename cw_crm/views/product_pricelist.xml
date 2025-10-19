@@ -1,0 +1,14 @@
+<odoo>
+
+	<record model="ir.ui.view" id="view_product_pricelist_form_inherit_crm_cw">
+        <field name="name">product.pricelist.form.inherit.crm.cw</field>
+        <field name="model">product.pricelist</field>
+        <field name="inherit_id" ref="product.product_pricelist_view"/>
+        <field name="arch" type="xml">
+			<xpath expr="//field[@name='price']" position="after">
+                <field name="goja_type" studio-view-group-names="Advanced Pricelists" studio-view-group-ids="19" string="Type"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
