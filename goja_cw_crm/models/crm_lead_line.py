@@ -14,6 +14,7 @@ class CrmLeadLine(models.Model):
     price_pouring = fields.Float(string='Price (Pouring)')
     type_selected = fields.Selection(string='Selected Type', selection=[('Wholesale', 'Wholesale'), ('By bottle', 'By bottle'),('Pouring', 'Pouring')])
     notes = fields.Text(string='Internal Notes')
+    wine_type_id = fields.Many2one('wine.type', related='product_template_id.wine_type_id')
 
     @api.onchange('product_template_id')
     def onchange_price(self):

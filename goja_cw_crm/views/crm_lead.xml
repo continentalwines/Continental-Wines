@@ -19,6 +19,7 @@
                         <tree editable="bottom">
                           <field name="sequence" widget="handle"/>
                           <field name="product_template_id"/>
+                          <field name="wine_type_id"/>
                           <field name="region_id" string="Region" options="{&quot;no_create&quot;:true,&quot;no_open&quot;:true}"/>
                           <field name="country_id" string="Country" options="{&quot;no_create&quot;:true,&quot;no_open&quot;:true}"/>
                           <field name="price_wholesale"/>
