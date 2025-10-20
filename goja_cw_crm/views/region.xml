@@ -1,6 +1,6 @@
 <odoo>
 
-	<record model="ir.ui.view" id="cw_crm.view_goja_region_list">
+	<record model="ir.ui.view" id="view_goja_region_list">
         <field name="name">cw.region.list</field>
         <field name="model">goja.region</field>
         <field name="type">tree</field>
@@ -12,7 +12,7 @@
         </field>
     </record>
 
-    <record model="ir.actions.act_window" id="cw_crm.act_window_goja_region">
+    <record model="ir.actions.act_window" id="act_window_goja_region">
         <field name="name">Region</field>
         <field name="res_model">goja.region</field>
         <field name="view_mode">tree</field>

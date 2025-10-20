@@ -1,6 +1,6 @@
 <odoo>
 
-	<record model="ir.ui.view" id="cw_crm.view_goja_wine_type_list">
+	<record model="ir.ui.view" id="view_goja_wine_type_list">
         <field name="name">cw.wine.type.list</field>
         <field name="model">wine.type</field>
         <field name="type">tree</field>
@@ -11,7 +11,7 @@
         </field>
     </record>
 
-    <record model="ir.actions.act_window" id="cw_crm.act_window_goja_wine_type">
+    <record model="ir.actions.act_window" id="act_window_goja_wine_type">
         <field name="name">Wine Type</field>
         <field name="res_model">wine.type</field>
         <field name="view_mode">tree</field>
