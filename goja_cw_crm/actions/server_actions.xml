@@ -1,0 +1,128 @@
+<odoo>
+
+    <record model="ir.actions.server" id="cw_crm.action_crm_lead_create_pricelist" >
+        <field name="name">CRM - Create pricelist from opportunity</field>
+        <field name="model_id" ref="crm.model_crm_lead"/>
+        <field name="state">code</field>
+        <field name="code">
+if record.partner_id.property_product_pricelist.id == 1:
+
+    if record.x_crm_lead_line_ids:
+    
+        new_pricelist = env['product.pricelist'].create({
+                'name': record.partner_id.name + " Pricelist test",
+            })
+            
+        record.partner_id.write({"property_product_pricelist": new_pricelist.id})
+        
+        for line in record.x_crm_lead_line_ids:
+          
+            if line.x_type_selected == "Wholesale":
+                line_price = line.x_price_wholesale
+            elif line.x_type_selected == "By bottle":
+                line_price = line.x_price_by_bottle
+            elif line.x_type_selected == "Pouring":
+                line_price = line.x_price_pouring
+            else:
+                line_price = 0
+            
+            if line_price > 0:
+            
+                env['product.pricelist.item'].create({
+                        'pricelist_id': new_pricelist.id,
+                        'applied_on': "1_product",
+                        'product_tmpl_id': line.x_product_template_id.id,
+                        'compute_price': "fixed",
+                        'fixed_price': line_price,
+                        'x_type': line.x_type_selected
+                    })
+
+else:
+  
+    raise UserError("This customer already has a custom pricelist!")
+        </field>
+    </record>
+
+    <record model="ir.actions.server" id="cw_crm.action_crm_lead_update_pricelist" >
+        <field name="name">CRM - Update pricelist from opportunity</field>
+        <field name="model_id" ref="crm.model_crm_lead"/>
+        <field name="state">code</field>
+        <field name="code">
+if record.partner_id.property_product_pricelist.id != 1:
+
+    if record.crm_lead_line_ids:
+    
+        pricelist = record.partner_id.property_product_pricelist
+        changed_lines = 0
+        
+        for line in record.crm_lead_line_ids:
+          
+            if line.type_selected == "Wholesale":
+                line_price = line.price_wholesale
+            elif line.type_selected == "By bottle":
+                line_price = line.price_by_bottle
+            elif line.type_selected == "Pouring":
+                line_price = line.price_pouring
+            else:
+                line_price = 0
+            
+            if line_price > 0:
+            
+                existing_line = env['product.pricelist.item'].search([
+                        ['pricelist_id', '=', pricelist.id],
+                        ['product_tmpl_id', '=', line.product_template_id.id]
+                        # ['fixed_price', '!=', line_price]
+                    ])
+                  
+                if existing_line:
+                  
+                    if existing_line.fixed_price != line_price:
+                
+                        existing_line.write({
+                                'fixed_price': line_price,
+                                'goja_type': line.type_selected
+                            })
+                      
+                        changed_lines = changed_lines + 1
+                
+                else:
+                  
+                    env['product.pricelist.item'].create({
+                            'pricelist_id': pricelist.id,
+                            'applied_on': "1_product",
+                            'product_tmpl_id': line.product_template_id.id,
+                            'compute_price': "fixed",
+                            'fixed_price': line_price,
+                            'goja_type': line.type_selected
+                        })
+                
+                changed_lines = changed_lines + 1
+              
+        if changed_lines == 0:
+          
+            raise UserError("Nothing to update!")
+
+else:
+  
+  raise UserError("This customer doesn't have a custom pricelist yet!")
+        </field>
+    </record>
+
+    <!-- <record model="base.automation" id="cw_crm.action_x_crm_lead_line_update_prices">
+        <field name="name">CRM - Add prices to CRM line</field>
+        <field name="model_id" ref="cw_crm.model_crm_lead_line"/>
+        <field name="state">code</field>
+        <field name="trigger">on_change</field>
+        <field name="trigger_field_ids" eval="[(6, 0, [ref('cw_crm.field_crm_lead_line_x_product_template_id')])]"/>
+        <field name="active" eval="True"/>
+        <field name="filter_domain"></field>
+        <field name="code">
+if record.product_template_id:
+
+    record['price_wholesale'] = record.product_template_id.list_price
+    record['price_by_bottle'] = record.product_template_id.price_by_bottle
+    record['price_pouring'] = record.product_template_id.price_pouring
+        </field>
+    </record> -->
+
+</odoo>

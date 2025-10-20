@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+acess_goja_region_user,acess_goja_region_user,model_goja_region,base.group_user,1,1,1,1
+access_goja_wine_type_user,access_goja_wine_type_user,model_wine_type,base.group_user,1,1,1,1
+access_goja_crm_lead_line_user,access_goja_crm_lead_line_user,model_crm_lead_line,base.group_user,1,1,1,1
