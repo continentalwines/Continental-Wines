@@ -16,7 +16,7 @@
             <xpath expr="//form[1]/sheet[1]/notebook[1]" position="inside">
                 <page string="Pricing" name="page_pricing">
                     <field name="crm_lead_line_ids" widget="section_and_note_one2many">
-                        <list editable="bottom">
+                        <tree editable="bottom">
                           <field name="sequence" widget="handle"/>
                           <field name="product_template_id"/>
                           <field name="region_id" string="Region" options="{&quot;no_create&quot;:true,&quot;no_open&quot;:true}"/>
@@ -26,7 +26,7 @@
                           <field name="price_pouring"/>
                           <field name="type_selected" string="Selected Price"/>
                           <field name="notes" string="Internal Notes"/>
-                        </list>
+                        </tree>
                     </field>
                     <group name="group_crm_pricelist">
                         <field name="quotation_date" string="Quotation Date"/>
