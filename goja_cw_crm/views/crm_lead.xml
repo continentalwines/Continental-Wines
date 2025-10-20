@@ -6,8 +6,8 @@
         <field name="inherit_id" ref="crm.crm_lead_view_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='stage_id']" position="after">
-                <button name="create_pricelist_from_crm" string="Create Pricelist" type="object" attrs="{'invisible': [('agreed_pricelist_id','!=',1)]}"//>
-                <button name="update_pricelist_from_crm" string="Update Pricelist" type="object" attrs="{'invisible': [('agreed_pricelist_id','=',1)]}"//>
+                <button name="create_pricelist_from_crm" string="Create Pricelist" type="object" attrs="{'invisible': [('agreed_pricelist_id','!=',1)]}"/>
+                <button name="update_pricelist_from_crm" string="Update Pricelist" type="object" attrs="{'invisible': [('agreed_pricelist_id','=',1)]}"/>
 
             </xpath>
             <xpath expr="//field[@name='team_id']" position="after">
