@@ -5,6 +5,6 @@ class Region(models.Model):
     _description = 'Region'
 
     x_name = fields.Char()
-    x_country_id = fields.Many2one('crm.lead', string='Country')
+    x_country_id = fields.Many2one('res.country', string='Country')
     
     

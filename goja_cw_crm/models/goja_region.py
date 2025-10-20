@@ -5,6 +5,6 @@ class GojaRegion(models.Model):
     _description = 'Region'
 
     name = fields.Char()
-    country_id = fields.Many2one('crm.lead', string='Country')
+    country_id = fields.Many2one('res.country', string='Country')
     
     
