@@ -8,6 +8,9 @@
 			<xpath expr="//field[@name='price']" position="after">
                 <field name="goja_type" studio-view-group-names="Advanced Pricelists" studio-view-group-ids="19" string="Type"/>
             </xpath>
+            <xpath expr="//field[@name='currency_id']" position="after">
+                <field name="goja_is_blank_pricelist"/>
+            </xpath>
         </field>
     </record>
 
