@@ -13,7 +13,7 @@ class CrmLead(models.Model):
     blank_agreed_pricelist = fields.Boolean(related='agreed_pricelist_id.goja_is_blank_pricelist')
 
     def create_pricelist_from_crm(self):
-        if self.partner_id.property_product_pricelist.id == 1:
+        if self.partner_id.property_product_pricelist.goja_is_blank_pricelist:
             if self.crm_lead_line_ids:
                 new_pricelist = self.env['product.pricelist'].create({
                         'name': self.partner_id.name + " Pricelist test",
@@ -47,7 +47,7 @@ class CrmLead(models.Model):
             raise UserError("This customer already has a custom pricelist!")
             
     def update_pricelist_from_crm(self):
-        if self.partner_id.property_product_pricelist.id != 1:
+        if not self.partner_id.property_product_pricelist.goja_is_blank_pricelist:
 
             if self.crm_lead_line_ids:
             
