@@ -5,11 +5,6 @@
         <field name="model">crm.lead</field>
         <field name="inherit_id" ref="crm.crm_lead_view_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='stage_id']" position="after">
-                <button name="create_pricelist_from_crm" string="Create Pricelist" type="object" attrs="{'invisible': [('agreed_pricelist_id.goja_is_blank_pricelist','!=',True)]}"/>
-                <button name="update_pricelist_from_crm" string="Update Pricelist" type="object" attrs="{'invisible': [('agreed_pricelist_id.goja_is_blank_pricelist','=',True)]}"/>
-
-            </xpath>
             <xpath expr="//field[@name='team_id']" position="after">
                 <field name="agreed_pricelist_id" string="Agreed Pricelist"/>
             </xpath>
@@ -30,6 +25,7 @@
                         </tree>
                     </field>
                     <group name="group_crm_pricelist">
+                        <field name="blank_agreed_pricelist" invisible="1"/>
                         <field name="quotation_date" string="Quotation Date"/>
                         <field name="other_notes" string="Other Notes" placeholder="Other notes to be shown on quotation printout"/>
                         <div name="div_agreed_pricelist">Remember to update any agreed pricing on the customer's Agreed Pricelist</div>
@@ -38,6 +34,10 @@
                         </div>
                     </group>
                 </page>
+            </xpath>
+            <xpath expr="//field[@name='stage_id']" position="after">
+                <button name="create_pricelist_from_crm" string="Create Pricelist" type="object" attrs="{'invisible': [('blank_agreed_pricelist','!=',True)]}"/>
+                <button name="update_pricelist_from_crm" string="Update Pricelist" type="object" attrs="{'invisible': [('blank_agreed_pricelist','=',True)]}"/>
             </xpath>
         </field>
     </record>

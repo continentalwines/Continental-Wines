@@ -10,6 +10,7 @@ class CrmLead(models.Model):
     crm_lead_line_ids = fields.One2many(comodel_name='crm.lead.line', inverse_name='crm_opportunity_id', string='CRM Lead Lines')
     quotation_date = fields.Date(string='Quotation Date')
     other_notes = fields.Text(string='Other Notes')
+    blank_agreed_pricelist = fields.Boolean(related='agreed_pricelist_id.goja_is_blank_pricelist')
 
     def create_pricelist_from_crm(self):
         if self.partner_id.property_product_pricelist.id == 1:
