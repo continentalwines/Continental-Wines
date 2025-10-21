@@ -2,7 +2,7 @@
 <odoo>
 
     <template id="pricing_report_document">
-        <t t-call="web.external_layout">
+        <t t-call="web.external_layout_CW">
             <div class="page">
                 
                 <h2 class="mt16">
@@ -152,7 +152,7 @@
 
 
     <record id="action_report_pricing_quotation" model="ir.actions.report">
-        <field name="name">Pricing Quotatin</field>
+        <field name="name">Pricing Quotation</field>
         <field name="model">crm.lead</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">goja_cw_crm.report_pricing</field>
