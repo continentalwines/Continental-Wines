@@ -8,7 +8,7 @@
 			<xpath expr="//field[@name='barcode']" position="after">
                 <field name="wine_type_id" options="{&quot;no_create&quot;:true,&quot;no_open&quot;:true}"/>
                 <!-- <field name="country_id" options="{&quot;no_create&quot;:true,&quot;no_open&quot;:true}"/> -->
-                <field name="region_id" options="{&quot;no_open&quot;:true}" domain="[[&quot;country_id&quot;,&quot;=&quot;,country_id]]"/>
+                <field name="region_id" options="{&quot;no_open&quot;:true}" domain="[[&quot;country_id&quot;,&quot;=&quot;,country_of_origin]]"/>
             </xpath>
             <xpath expr="//field[@name='taxes_id']" position="after">
                 <field name="price_by_bottle" string="Price (by bottle)"/>
