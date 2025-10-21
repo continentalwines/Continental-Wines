@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="pricing_report_document">
+        <t t-call="web.external_layout">
+            <div class="page">
+                
+                <h2 class="mt16">
+                    <span>Pricing Quotation</span>
+                </h2>
+                <div class="row">
+                    <div class="col-2">
+                        <span>To</span>
+                    </div>
+                    <div class="col-10">
+                        <div t-field="doc.partner_id"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2">
+                        <span>Contact Person</span>
+                    </div>
+                    <div class="col-10">
+                        <span t-field="doc.title"/>
+                        <span t-field="doc.contact_name"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2">
+                        <span>From</span>
+                    </div>
+                    <div class="col-10">
+                        <span t-field="doc.user_id"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2">
+                        <span>Date</span>
+                    </div>
+                    <div class="col-10">
+                        <span t-field="doc.x_quotation_date"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2">
+                        <span>Subject</span>
+                    </div>
+                    <div class="col-10">
+                        <span t-field="doc.name"/>
+                    </div>
+                </div>
+                
+                <div style="height: 30px"/>
+                
+                <div>
+                    Many thanks for your interest in our wines.
+                    I am pleased to recommend the following wines and offers for your kind consideration.
+                </div>
+                
+                <div style="height: 30px"/>
+                
+                
+                <t t-set="wine_type" t-value="[]"/>
+                        
+                <t t-foreach="doc.x_crm_lead_line_ids" t-as="l">
+                    <t t-set="wine_type" t-value="wine_type+[l.x_product_template_id.x_wine_type_id]"/>
+                </t>
+                
+                <t t-foreach="set(wine_type)" t-as="type">
+
+                    <div><strong t-esc="type.x_name" style="color:red" class="o_underline"/></div>
+                
+                    <table class="table o_report_block_table">
+                        
+                        <thead>
+                            <tr>
+                                <th style="text-align:left">
+                                    <span>Product</span>
+                                </th>
+                                <th style="text-align:right" width="10%">
+                                    <span>Wholesale<br/>HK$/btl.</span>
+                                </th>
+                                <th style="text-align:right" width="10%">
+                                    <span>By Bottle<br/>HK$/btl.</span>
+                                </th>
+                                <th style="text-align:right" width="10%">
+                                    <span>Pouring<br/>HK$/btl.</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <t t-foreach="doc.crm_lead_line_ids" t-as="line">
+                                <tr t-if="type.id==line.product_template_id.wine_type_id.id">
+                                
+                                    <td>
+                                        <b t-field="line.product_template_id.name"/>
+                                        <br/>
+                                        <i t-if="line.region_id" t-field="line.region_id"/> 
+                                        <i t-if="line.region_id">, </i>
+                                        <i t-if="line.country_id" t-field="line.country_id"/>
+                                    </td>
+                                    <td style="text-align:right">
+                                        <span t-if="line.price_wholesale" t-field="line.price_wholesale" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 0}"/>
+                                        <span t-else="">-</span>
+                                    </td>
+                                    <td style="text-align:right">
+                                        <span t-if="line.price_by_bottle" t-field="line.price_by_bottle" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 0}"/>
+                                        <span t-else="">-</span>
+                                    </td>
+                                    <td style="text-align:right">
+                                        <span t-if="line.price_pouring" t-field="line.price_pouring" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 0}"/>
+                                        <span t-else="">-</span>
+                                    </td>
+                                </tr>
+                            </t>         
+                        </tbody>
+                    </table>
+                    
+                </t>
+                
+                <div t-if="doc.x_other_notes">
+                    <strong>Additional Notes</strong><br/>
+                    <span t-field="doc.x_other_notes"/>
+                </div>
+                
+                <!--<div style="text-align:left">-->
+                <!--    <span t-if="doc.user_id.signature" t-field="doc.user_id.signature"/>-->
+                <!--</div>-->
+                
+                <div style="text-align:left">
+                    <div style="height: 50px"/>
+                    <strong t-field="doc.user_id.employee_id"/><br/>
+                    <span t-field="doc.user_id.employee_id.job_title"/><br/><br/>
+                    T: <span t-field="doc.user_id.employee_id.work_phone"/> M: <span t-field="doc.user_id.employee_id.mobile_phone"/><br/>
+                    Email: <span t-field="doc.user_id.employee_id.work_email"/><br/>
+                    www.continentalwines.com.hk
+                </div>
+                
+            </div>
+        </t>
+    </template>
+
+    <template id="report_pricing">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="goja_cw_crm.pricing_report_document" t-lang="o.partner_id.lang"/>
+            </t>
+        </t>
+    </template>
+
+
+
+    <record id="action_report_pricing_quotation" model="ir.actions.report">
+        <field name="name">Pricing Quotatin</field>
+        <field name="model">crm.lead</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">goja_cw_crm.report_pricing</field>
+        <field name="report_file">goja_cw_crm.report_pricing</field>
+        <field name="print_report_name">
+            'CW Pricing Quotation - %s - %s' % (object.name, object.quotation_date)</field>
+        <field name="binding_model_id" ref="model_purchase_order"/>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>

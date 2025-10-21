@@ -22,6 +22,7 @@
         'views/product_pricelist.xml',
         'views/crm_lead.xml',
         'views/menu.xml',
+        'views/pricing_report.xml'
     ],
     'license': 'OEEL-1',
 }
