@@ -30,7 +30,7 @@ class CrmLead(models.Model):
         if self.partner_id.property_product_pricelist.goja_is_blank_pricelist:
             if self.crm_lead_line_ids:
                 new_pricelist = self.env['product.pricelist'].create({
-                        'name': self.partner_id.name + " Pricelist test",
+                        'name': self.partner_id.name + " Pricelist",
                     })
                     
                 self.partner_id.write({"property_product_pricelist": new_pricelist.id})
