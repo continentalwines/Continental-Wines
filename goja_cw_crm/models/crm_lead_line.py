@@ -8,7 +8,7 @@ class CrmLeadLine(models.Model):
     crm_opportunity_id = fields.Many2one('crm.lead', string='Lead/Opportunity')
     product_template_id = fields.Many2one('product.template', string='Product')
     region_id = fields.Many2one(comodel_name='goja.region', string='Region', related='product_template_id.region_id')
-    country_id = fields.Many2one(comodel_name='res.country', string='Country', related='product_template_id.country_of_origin')
+    country_id = fields.Many2one(comodel_name='res.country', string='Country')
     price_wholesale = fields.Float(string='Price (Wholesale)')
     price_by_bottle = fields.Float(string='Price (By Bottle)')
     price_pouring = fields.Float(string='Price (Pouring)')
