@@ -12,6 +12,15 @@ class CrmLead(models.Model):
     other_notes = fields.Text(string='Other Notes')
     blank_agreed_pricelist = fields.Boolean(related='agreed_pricelist_id.goja_is_blank_pricelist')
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        leads = super(CrmLead, self).create(vals_list)
+        for lead in leads:
+            if lead.partner_id and not lead.agreed_pricelist_id:
+                lead.agreed_pricelist_id = lead.partner_id.property_product_pricelist
+        return leads
+        
+
     @api.onchange('partner_id')
     def onchange_partner_pricelist(self):
         if self.partner_id:
