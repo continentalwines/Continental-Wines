@@ -26,11 +26,11 @@
                     </field>
                     <group name="group_crm_pricelist">
                         <field name="blank_agreed_pricelist" invisible="1"/>
-                        <field name="quotation_date" string="Quotation Date"/>
+                        <field name="quotation_date" string="Quotation Date" required="1"/>
                         <field name="other_notes" string="Other Notes" placeholder="Other notes to be shown on quotation printout"/>
                         <div name="div_agreed_pricelist">Remember to update any agreed pricing on the customer's Agreed Pricelist</div>
                         <div class="o_row" name="div_agreed_pricelist_row">
-                          <field name="agreed_pricelist_id"/>
+                          <field name="agreed_pricelist_id" attrs="{'required': [('partner_id','=',True)]}"/>
                         </div>
                     </group>
                 </page>
