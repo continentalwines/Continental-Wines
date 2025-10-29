@@ -3,19 +3,18 @@
 	<record model="ir.ui.view" id="view_goja_region_list">
         <field name="name">cw.region.list</field>
         <field name="model">goja.region</field>
-        <field name="type">tree</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name"/>
                 <field name="country_id"/>
-            </tree>
+            </list>
         </field>
     </record>
 
     <record model="ir.actions.act_window" id="act_window_goja_region">
         <field name="name">Region</field>
         <field name="res_model">goja.region</field>
-        <field name="view_mode">tree</field>
+        <field name="view_mode">list</field>
         <field name="view_id" eval="False"/>
         <field name="binding_model_id" eval="False"/>
         <field name="binding_type">action</field>

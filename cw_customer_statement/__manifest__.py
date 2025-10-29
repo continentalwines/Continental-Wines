@@ -5,7 +5,7 @@
     "license": "AGPL-3",
     "summary": "Report Customer Statement",
     "description": """Report Customer Statement.""",
-    "version": "16.0.1.0.0",
+    "version": "18.0.1.0.0",
     'depends': ['account_reports', 'sale'],
     "data": [
         'views/res_partner_views.xml',

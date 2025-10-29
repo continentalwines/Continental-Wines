@@ -11,7 +11,7 @@
             <xpath expr="//form[1]/sheet[1]/notebook[1]" position="inside">
                 <page string="Pricing" name="page_pricing">
                     <field name="crm_lead_line_ids" widget="section_and_note_one2many">
-                        <tree editable="bottom">
+                        <list editable="bottom">
                           <field name="sequence" widget="handle"/>
                           <field name="product_template_id"/>
                           <field name="wine_type_id"/>
@@ -22,7 +22,7 @@
                           <field name="price_pouring"/>
                           <field name="type_selected" string="Selected Price"/>
                           <field name="notes" string="Internal Notes"/>
-                        </tree>
+                        </list>
                     </field>
                     <group name="group_crm_pricelist">
                         <field name="blank_agreed_pricelist" invisible="1"/>
@@ -30,14 +30,14 @@
                         <field name="other_notes" string="Other Notes" placeholder="Other notes to be shown on quotation printout"/>
                         <div name="div_agreed_pricelist">Remember to update any agreed pricing on the customer's Agreed Pricelist</div>
                         <div class="o_row" name="div_agreed_pricelist_row">
-                          <field name="agreed_pricelist_id" attrs="{'required': [('partner_id','=',True)]}"/>
+                          <field name="agreed_pricelist_id" required="partner_id"/>
                         </div>
                     </group>
                 </page>
             </xpath>
             <xpath expr="//field[@name='stage_id']" position="after">
-                <button name="create_pricelist_from_crm" string="Create Pricelist" type="object" attrs="{'invisible': [('blank_agreed_pricelist','!=',True)]}"/>
-                <button name="update_pricelist_from_crm" string="Update Pricelist" type="object" attrs="{'invisible': [('blank_agreed_pricelist','=',True)]}"/>
+                <button name="create_pricelist_from_crm" string="Create Pricelist" type="object" invisible="not blank_agreed_pricelist"/>
+                <button name="update_pricelist_from_crm" string="Update Pricelist" type="object" invisible="blank_agreed_pricelist"/>
             </xpath>
         </field>
     </record>
