@@ -34,7 +34,8 @@ class ResPartner(models.Model):
         self.ensure_one()
         data = []
         ar = self.env.ref('account_reports.aged_receivable_report')
-        options = ar.get_options()
+        options_dict = {}
+        options = ar.get_options(options_dict)
         options['unfold_all'] = True
         options['partner'] = True
         options['partner_ids'] = [self.id]
