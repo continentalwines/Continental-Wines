@@ -6,7 +6,7 @@ class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
     commitment_date_only = fields.Date(
-        string="Commitment Date",
+        string="Delivery Date (Date)",
         compute="_compute_commitment_date_only",
         search="_search_commitment_date_only",
         store=False
