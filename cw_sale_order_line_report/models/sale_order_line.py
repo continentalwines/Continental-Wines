@@ -7,7 +7,7 @@ class SaleOrderLine(models.Model):
 
     customer_reference = fields.Char(related='order_id.client_order_ref', store=True, index=True, string="Customer Reference")
     delivery_address = fields.Char(related='order_id.partner_shipping_id.display_name', store=True, index=True, string="Delivery Address")
-    commitment_date = fields.Date(
+    commitment_date = fields.Datetime(
         string="Delivery Date",
         related="order_id.commitment_date"
     )
