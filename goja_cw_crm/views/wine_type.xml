@@ -4,6 +4,7 @@
         <field name="name">cw.wine.type.list</field>
         <field name="model">wine.type</field>
         <field name="arch" type="xml">
+            <list>
             <list editable="bottom">
                 <field name="sequence" widget="handle"/>
                 <field name="name"/>

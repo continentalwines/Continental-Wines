@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="pricelist_report_document">
+        <t t-call="web.external_layout_CW">
+            <div class="page">
+                <h2>
+                    <span>Pricelist</span>
+                    <span t-if="doc.name"> - <span t-field="doc.name"/></span>
+                </h2>
+
+                <t t-set="items" t-value="doc.item_ids"/>
+                <t t-set="show_type" t-value="bool(items.filtered('goja_type'))"/>
+
+                <table class="table table-sm o_main_table mt16">
+                    <thead>
+                        <tr>
+                            <th style="text-align:left;">Product</th>
+                            <th style="text-align:right;">Price</th>
+                            <th t-if="show_type" style="text-align:left;">Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="items" t-as="line">
+                            <tr>
+                                <td>
+                                    <t t-if="line.applied_on == '1_product' and line.product_tmpl_id">
+                                        <span t-field="line.product_tmpl_id"/>
+                                    </t>
+                                    <t t-elif="line.applied_on == '0_product_variant' and line.product_id">
+                                        <span t-field="line.product_id"/>
+                                    </t>
+                                    <t t-elif="line.applied_on == '2_product_category' and line.categ_id">
+                                        <span t-field="line.categ_id"/>
+                                    </t>
+                                    <t t-else="">
+                                        <span>All Products</span>
+                                    </t>
+                                </td>
+                                <td style="text-align:right;">
+                                    <t t-if="line.compute_price == 'fixed'">
+                                        <span t-esc="'%d' % int(round(line.fixed_price)) if round(line.fixed_price, 2) == round(line.fixed_price) else '%.2f' % round(line.fixed_price, 2)"/>
+                                    </t>
+                                    <t t-elif="line.compute_price == 'percentage'">
+                                        <span t-esc="'%d' % int(round(line.percent_price)) if round(line.percent_price, 2) == round(line.percent_price) else '%.2f' % round(line.percent_price, 2)"/>%
+                                    </t>
+                                    <t t-else="">
+                                        <span>Formula</span>
+                                    </t>
+                                </td>
+                                <td t-if="show_type">
+                                    <span t-esc="line.goja_type or '-'"/>
+                                </td>
+                            </tr>
+                        </t>
+                        <tr t-if="not items">
+                            <td t-att-colspan="3 if show_type else 2" style="text-align:center;">No pricelist rules found.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_pricelist">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="goja_cw_crm.pricelist_report_document"/>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_pricelist" model="ir.actions.report">
+        <field name="name">Pricelist</field>
+        <field name="model">product.pricelist</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">goja_cw_crm.report_pricelist</field>
+        <field name="report_file">goja_cw_crm.report_pricelist</field>
+        <field name="print_report_name">'CW Pricelist - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="product.model_product_pricelist"/>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>
