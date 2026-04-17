@@ -5,6 +5,26 @@
         <t t-call="web.external_layout_CW">
             <div class="page">
                 
+                <style>
+                    .no-page-break {
+                        page-break-inside: avoid !important;
+                        break-inside: avoid !important;
+                    }
+                    .o_report_block_table th {
+                        vertical-align: bottom !important;
+                        /* Optional: enhance appearance */
+                        background-color: #f8f8f8;
+                        font-weight: bold;
+                        border: 1px solid #d3d3d3;
+                        padding: 6px 8px;
+                    }
+                    .o_report_block_table td {
+                        border: 1px solid #d3d3d3;
+                        padding: 6px 8px;
+                        vertical-align: top;
+                    }
+                </style>
+                
                 <h2 class="mt16">
                     <span>Pricing Quotation</span>
                 </h2>
@@ -59,14 +79,9 @@
                 
                 <div style="height: 30px"/>
                 
+                <t t-set="wine_type_ordered" t-value="doc.crm_lead_line_ids.mapped('product_template_id.wine_type_id').sorted('sequence')"/>
                 
-                <t t-set="wine_type" t-value="[]"/>
-                        
-                <t t-foreach="doc.crm_lead_line_ids" t-as="l">
-                    <t t-set="wine_type" t-value="wine_type+[l.product_template_id.wine_type_id]"/>
-                </t>
-                
-                <t t-foreach="set(wine_type)" t-as="type">
+                <t t-foreach="wine_type_ordered" t-as="type">
 
                     <div><strong t-esc="type.name" style="color:red" class="o_underline"/></div>
                 
@@ -77,20 +92,20 @@
                                 <th style="text-align:left">
                                     <span>Product</span>
                                 </th>
-                                <th style="text-align:right" width="10%">
+                                <th style="text-align:right" width="12%">
                                     <span>Wholesale<br/>HK$/btl.</span>
                                 </th>
-                                <th style="text-align:right" width="10%">
+                                <th style="text-align:right" width="12%">
                                     <span>By Bottle<br/>HK$/btl.</span>
                                 </th>
-                                <th style="text-align:right" width="10%">
+                                <th style="text-align:right" width="12%">
                                     <span>Pouring<br/>HK$/btl.</span>
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
                             
-                            <t t-foreach="doc.crm_lead_line_ids" t-as="line">
+                            <t t-foreach="doc.crm_lead_line_ids.sorted(key=lambda l: l.sequence or 0)" t-as="line">
                                 <tr t-if="type.id==line.product_template_id.wine_type_id.id">
                                 
                                     <td>
@@ -101,16 +116,25 @@
                                         <i t-if="line.country_id" t-field="line.country_id"/>
                                     </td>
                                     <td style="text-align:right">
-                                        <span t-if="line.price_wholesale" t-field="line.price_wholesale" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 0}"/>
-                                        <span t-else="">-</span>
+                                        <t t-if="line.price_wholesale">
+                                            <span t-if="round(line.price_wholesale, 2) != int(round(line.price_wholesale, 2))" t-field="line.price_wholesale" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                            <span t-else="" t-field="line.price_wholesale" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 0}"/>                                        
+                                        </t>
+                                        <t t-else="">-</t>
                                     </td>
                                     <td style="text-align:right">
-                                        <span t-if="line.price_by_bottle" t-field="line.price_by_bottle" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 0}"/>
-                                        <span t-else="">-</span>
+                                        <t t-if="line.price_by_bottle">
+                                            <span t-if="round(line.price_by_bottle, 2) != int(round(line.price_by_bottle, 2))" t-field="line.price_by_bottle" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                            <span t-else="" t-field="line.price_by_bottle" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 0}"/>                                        
+                                        </t>
+                                        <t t-else="">-</t>
                                     </td>
                                     <td style="text-align:right">
-                                        <span t-if="line.price_pouring" t-field="line.price_pouring" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 0}"/>
-                                        <span t-else="">-</span>
+                                        <t t-if="line.price_pouring">
+                                            <span t-if="round(line.price_pouring, 2) != int(round(line.price_pouring, 2))" t-field="line.price_pouring" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                            <span t-else="" t-field="line.price_pouring" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 0}"/>                                        
+                                        </t>
+                                        <t t-else="">-</t>
                                     </td>
                                 </tr>
                             </t>         
@@ -123,10 +147,6 @@
                     <strong>Additional Notes</strong><br/>
                     <span t-field="doc.other_notes"/>
                 </div>
-                
-                <!--<div style="text-align:left">-->
-                <!--    <span t-if="doc.user_id.signature" t-field="doc.user_id.signature"/>-->
-                <!--</div>-->
                 
                 <div style="text-align:left">
                     <div style="height: 50px"/>
