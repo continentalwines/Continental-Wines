@@ -18,7 +18,7 @@
     <record id="view_order_product_search_business_classification" model="ir.ui.view">
         <field name="name">sale.report.search.business_classification</field>
         <field name="model">sale.report</field>
-        <field name="inherit_id" ref="sale.view_order_product_filter"/>
+        <field name="inherit_id" ref="sale.view_order_product_search"/>
         <field name="arch" type="xml">
             <xpath expr="//search" position="inside">
                 <group string="Business Classification" expand="0">
