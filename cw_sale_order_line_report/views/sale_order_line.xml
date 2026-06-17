@@ -22,6 +22,7 @@
             <xpath expr="//field[@name='salesman_id']" position="after">
                 <field name="customer_reference"/>
                 <field name="delivery_address"/>
+                <field name="commitment_date_only" string="Delivery Date (Date)"/>
             </xpath>
             <xpath expr="//group/filter[@name='salesperson']" position="after">
                 <filter string="Customer Reference" name="customer_reference" domain="[]" context="{'group_by':'customer_reference'}"/>

@@ -8,6 +8,7 @@
     'depends': ['sale_management'],
     'data': [
         'views/sale_order_line.xml',
+        'views/sale_analysis.xml',
     ],
     'installable': True,
     'application': False,

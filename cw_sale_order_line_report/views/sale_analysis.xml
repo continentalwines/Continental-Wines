@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="view_order_product_search" model="ir.ui.view">
+        <field name="name">view_order_product_search</field>
+        <field name="model">sale.report</field>
+        <field name="inherit_id" ref="sale.view_order_product_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='industry_id']" position="after">
+                <separator/>
+                <filter name="cw" string="CW" domain="[('partner_id.category_id', 'ilike', 'CW')]"/>
+                <filter name="vw" string="VW" domain="[('partner_id.category_id', 'ilike', 'VW')]"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
