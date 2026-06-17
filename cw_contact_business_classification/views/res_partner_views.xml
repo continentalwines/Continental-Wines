@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ── Form view: add Group & Channel to the Sales & Purchase tab ── -->
+    <record id="view_partner_form_business_classification" model="ir.ui.view">
+        <field name="name">res.partner.form.business_classification</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='sale_purchase']" position="inside">
+                <group string="Business Classification">
+                    <field name="business_group" readonly="parent_id"/>
+                    <field name="business_channel" readonly="parent_id"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ── List view: add both fields as optional columns ── -->
+    <record id="view_partner_list_business_classification" model="ir.ui.view">
+        <field name="name">res.partner.list.business_classification</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//list" position="inside">
+                <field name="business_group" optional="show"/>
+                <field name="business_channel" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ── Search view: add Group By options ── -->
+    <record id="view_partner_search_business_classification" model="ir.ui.view">
+        <field name="name">res.partner.search.business_classification</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@string='Group By']" position="inside">
+                <filter
+                    name="group_business_group"
+                    string="Group"
+                    context="{'group_by': 'business_group'}"/>
+                <filter
+                    name="group_business_channel"
+                    string="Channel"
+                    context="{'group_by': 'business_channel'}"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

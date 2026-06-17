@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- List view (inline editable) -->
+    <record id="view_business_channel_list" model="ir.ui.view">
+        <field name="name">business.channel.list</field>
+        <field name="model">business.channel</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form view -->
+    <record id="view_business_channel_form" model="ir.ui.view">
+        <field name="name">business.channel.form</field>
+        <field name="model">business.channel</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Window action -->
+    <record id="action_business_channel" model="ir.actions.act_window">
+        <field name="name">Business Channels</field>
+        <field name="res_model">business.channel</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Configuration menu item (Sales Admins only) -->
+    <menuitem
+        id="menu_business_channel"
+        name="Business Channels"
+        parent="sale.menu_sale_config"
+        action="action_business_channel"
+        groups="sales_team.group_sale_manager"
+        sequence="101"/>
+
+</odoo>
