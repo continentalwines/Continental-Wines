@@ -22,7 +22,7 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_res_partner_tree"/>
         <field name="arch" type="xml">
-            <xpath expr="//list" position="inside">
+            <xpath expr="//field[@name='country_id']" position="after">
                 <field name="business_group" optional="show"/>
                 <field name="business_channel" optional="show"/>
             </xpath>
