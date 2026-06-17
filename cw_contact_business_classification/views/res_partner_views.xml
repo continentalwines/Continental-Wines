@@ -20,9 +20,9 @@
     <record id="view_partner_list_business_classification" model="ir.ui.view">
         <field name="name">res.partner.list.business_classification</field>
         <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_res_partner_tree"/>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='country_id']" position="after">
+            <xpath expr="//list" position="inside">
                 <field name="business_group" optional="show"/>
                 <field name="business_channel" optional="show"/>
             </xpath>
