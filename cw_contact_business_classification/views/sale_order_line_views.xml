@@ -2,7 +2,7 @@
 <odoo>
 
     <!-- ── Pivot view: expose Group & Channel as grouping dimensions ── -->
-    <record id="view_order_line_pivot_business_classification" model="ir.ui.view">
+    <!-- <record id="view_order_line_pivot_business_classification" model="ir.ui.view">
         <field name="name">sale.order.line.pivot.business_classification</field>
         <field name="model">sale.order.line</field>
         <field name="inherit_id" ref="sale.view_order_line_pivot"/>
@@ -12,13 +12,13 @@
                 <field name="business_channel"/>
             </xpath>
         </field>
-    </record>
+    </record> -->
 
     <!-- ── Search view: add Group By filters ── -->
     <record id="view_order_line_search_business_classification" model="ir.ui.view">
         <field name="name">sale.order.line.search.business_classification</field>
         <field name="model">sale.order.line</field>
-        <field name="inherit_id" ref="sale.view_sales_order_line_filter2"/>
+        <field name="inherit_id" ref="sale.view_sales_order_line_filter"/>
         <field name="arch" type="xml">
             <xpath expr="//search" position="inside">
                 <group string="Business Classification" expand="0">
