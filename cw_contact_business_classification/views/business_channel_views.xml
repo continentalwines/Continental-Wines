@@ -39,8 +39,8 @@
     <menuitem
         id="menu_business_channel"
         name="Business Channels"
-        parent="contacts.menu_contacts_config"
+        parent="contacts.res_partner_menu_config"
         action="action_business_channel"
-        sequence="32"/>
+        sequence="42"/>
 
 </odoo>
