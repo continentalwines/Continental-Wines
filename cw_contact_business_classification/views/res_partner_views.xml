@@ -7,7 +7,7 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//page[@name='sale_purchase']" position="inside">
+            <xpath expr="//page[@name='sales_purchases']" position="inside">
                 <group string="Business Classification">
                     <field name="business_group" readonly="parent_id"/>
                     <field name="business_channel" readonly="parent_id"/>
