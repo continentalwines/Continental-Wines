@@ -39,8 +39,8 @@
     <menuitem
         id="menu_business_group"
         name="Business Groups"
-        parent="contacts.menu_contacts_config"
+        parent="contacts.res_partner_menu_config"
         action="action_business_group"
-        sequence="31"/>
+        sequence="41"/>
 
 </odoo>
