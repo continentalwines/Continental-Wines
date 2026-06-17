@@ -35,15 +35,17 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_res_partner_filter"/>
         <field name="arch" type="xml">
-            <xpath expr="//group[@string='Group By']" position="inside">
-                <filter
-                    name="group_business_group"
-                    string="Group"
-                    context="{'group_by': 'business_group'}"/>
-                <filter
-                    name="group_business_channel"
-                    string="Channel"
-                    context="{'group_by': 'business_channel'}"/>
+            <xpath expr="//search" position="inside">
+                <group string="Business Classification" expand="0">
+                    <filter
+                        name="group_business_group"
+                        string="Group"
+                        context="{'group_by': 'business_group'}"/>
+                    <filter
+                        name="group_business_channel"
+                        string="Channel"
+                        context="{'group_by': 'business_channel'}"/>
+                </group>
             </xpath>
         </field>
     </record>
