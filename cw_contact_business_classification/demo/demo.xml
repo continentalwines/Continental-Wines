@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Business Groups -->
+    <record id="demo_business_group_white_sheep" model="business.group">
+        <field name="name">White Sheep</field>
+    </record>
+    <record id="demo_business_group_feather_and_fur" model="business.group">
+        <field name="name">Feather and Fur</field>
+    </record>
+    <record id="demo_business_group_city_hyper" model="business.group">
+        <field name="name">City Hyper</field>
+    </record>
+
+    <!-- Business Channels -->
+    <record id="demo_business_channel_restaurant" model="business.channel">
+        <field name="name">Restaurant</field>
+    </record>
+    <record id="demo_business_channel_hotel" model="business.channel">
+        <field name="name">Hotel</field>
+    </record>
+    <record id="demo_business_channel_retail" model="business.channel">
+        <field name="name">Retail</field>
+    </record>
+    <record id="demo_business_channel_online" model="business.channel">
+        <field name="name">Online</field>
+    </record>
+
+</odoo>

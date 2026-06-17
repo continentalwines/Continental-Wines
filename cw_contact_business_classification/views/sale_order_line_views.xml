@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ── Pivot view: expose Group & Channel as grouping dimensions ── -->
+    <record id="view_order_line_pivot_business_classification" model="ir.ui.view">
+        <field name="name">sale.order.line.pivot.business_classification</field>
+        <field name="model">sale.order.line</field>
+        <field name="inherit_id" ref="sale.view_order_line_pivot"/>
+        <field name="arch" type="xml">
+            <xpath expr="//pivot" position="inside">
+                <field name="business_group"/>
+                <field name="business_channel"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ── Search view: add Group By filters ── -->
+    <record id="view_order_line_search_business_classification" model="ir.ui.view">
+        <field name="name">sale.order.line.search.business_classification</field>
+        <field name="model">sale.order.line</field>
+        <field name="inherit_id" ref="sale.view_sales_order_line_filter2"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@string='Group By']" position="inside">
+                <filter
+                    name="group_business_group"
+                    string="Custom Group"
+                    context="{'group_by': 'business_group'}"/>
+                <filter
+                    name="group_business_channel"
+                    string="Customer Channel"
+                    context="{'group_by': 'business_channel'}"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
