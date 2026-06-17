@@ -35,13 +35,12 @@
         <field name="view_mode">list,form</field>
     </record>
 
-    <!-- Configuration menu item (Sales Admins only) -->
+    <!-- Configuration menu item under Contacts/Configuration, after Industries -->
     <menuitem
         id="menu_business_channel"
         name="Business Channels"
-        parent="sale.menu_sale_config"
+        parent="contacts.menu_contacts_config"
         action="action_business_channel"
-        groups="sales_team.group_sale_manager"
-        sequence="101"/>
+        sequence="32"/>
 
 </odoo>
