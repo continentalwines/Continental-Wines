@@ -7,14 +7,13 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//page[@name='sales_purchases']" position="inside">
-                <group string="Business Classification" col="2">
-                    <group col="1">
-                        <field name="business_group" readonly="parent_id"/>
-                        <field name="business_channel" readonly="parent_id"/>
-                    </group>
-                    <group/>
-                </group>
+            <xpath expr="//form[1]/sheet[1]/group[1]/group[2]" position="inside">
+                <field name="business_group"
+                    readonly="parent_id"
+                    options="{'no_open': True, 'no_create': True, 'no_quick_create': True}"/>
+                <field name="business_channel"
+                    readonly="parent_id"
+                    options="{'no_open': True, 'no_create': True, 'no_quick_create': True}"/>
             </xpath>
         </field>
     </record>
@@ -26,8 +25,10 @@
         <field name="inherit_id" ref="base.view_partner_tree"/>
         <field name="arch" type="xml">
             <xpath expr="//list" position="inside">
-                <field name="business_group" optional="show"/>
-                <field name="business_channel" optional="show"/>
+                <field name="business_group" optional="show"
+                    options="{'no_open': True, 'no_create': True, 'no_quick_create': True}"/>
+                <field name="business_channel" optional="show"
+                    options="{'no_open': True, 'no_create': True, 'no_quick_create': True}"/>
             </xpath>
         </field>
     </record>
