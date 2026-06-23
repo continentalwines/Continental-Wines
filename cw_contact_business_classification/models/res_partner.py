@@ -24,6 +24,7 @@ class ResPartner(models.Model):
         for record in self:
             if record.parent_id:
                 record.business_group = record.parent_id.business_group
+            # when parent is removed, leave the stored value as-is (handled by inverse)
 
     def _inverse_business_group(self):
         pass  # stored field — value is written directly by the ORM for top-level contacts
@@ -33,6 +34,7 @@ class ResPartner(models.Model):
         for record in self:
             if record.parent_id:
                 record.business_channel = record.parent_id.business_channel
+            # when parent is removed, leave the stored value as-is (handled by inverse)
 
     def _inverse_business_channel(self):
         pass  # stored field — value is written directly by the ORM for top-level contacts
