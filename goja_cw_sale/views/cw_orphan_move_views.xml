@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- List View -->
+    <record id="view_cw_orphan_move_list" model="ir.ui.view">
+        <field name="name">cw.orphan.move.list</field>
+        <field name="model">cw.orphan.move</field>
+        <field name="arch" type="xml">
+            <list string="Orphan Stock Moves"
+                  decoration-danger="issue_type == 'no_sale_line'"
+                  decoration-warning="issue_type == 'no_to_refund'">
+                <field name="issue_type"
+                       string="Issue"
+                       decoration-danger="issue_type == 'no_sale_line'"
+                       decoration-warning="issue_type == 'no_to_refund'"
+                       widget="badge"
+                />
+                <field name="so_id" string="Sales Order"/>
+                <field name="picking_id" string="Transfer"/>
+                <field name="picking_type_name" string="Op. Type" optional="show"/>
+                <field name="picking_origin" string="Source Doc" optional="show"/>
+                <field name="product_code" string="Code" optional="show"/>
+                <field name="product_id" string="Product"/>
+                <field name="move_qty" string="Qty"/>
+                <field name="to_refund" string="To Refund" optional="show"/>
+                <field name="sale_line_id" string="Current SOL" optional="show"/>
+                <field name="suggested_sol_id" string="Suggested SOL" optional="show"/>
+                <field name="src_location" string="From" optional="show"/>
+                <button name="action_fix_one"
+                        string="Fix"
+                        type="object"
+                        icon="fa-wrench"
+                        help="Auto-match SOL by product dan set to_refund=True"
+                />
+            </list>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_cw_orphan_move_search" model="ir.ui.view">
+        <field name="name">cw.orphan.move.search</field>
+        <field name="model">cw.orphan.move</field>
+        <field name="arch" type="xml">
+            <search string="Search Orphan Moves">
+                <field name="so_id" string="Sales Order"/>
+                <field name="picking_id" string="Transfer"/>
+                <field name="product_id" string="Product"/>
+                <filter string="sale_line_id NULL"
+                        name="no_sale_line"
+                        domain="[('issue_type','=','no_sale_line')]"
+                />
+                <filter string="to_refund FALSE"
+                        name="no_to_refund"
+                        domain="[('issue_type','=','no_to_refund')]"
+                />
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter string="Sales Order"  name="group_so"      context="{'group_by': 'so_id'}"/>
+                    <filter string="Transfer"     name="group_picking" context="{'group_by': 'picking_id'}"/>
+                    <filter string="Issue Type"   name="group_issue"   context="{'group_by': 'issue_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Server Action: Fix Selected (muncul di ⚙ Action menu saat multi-select) -->
+    <record id="action_cw_orphan_move_fix_selected" model="ir.actions.server">
+        <field name="name">Fix Selected Orphan Moves</field>
+        <field name="model_id" ref="model_cw_orphan_move"/>
+        <field name="binding_model_id" ref="model_cw_orphan_move"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">action = records.action_fix_selected()</field>
+    </record>
+
+    <!-- Window Action -->
+    <record id="action_cw_orphan_move" model="ir.actions.act_window">
+        <field name="name">Orphan Stock Moves</field>
+        <field name="res_model">cw.orphan.move</field>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="view_cw_orphan_move_list"/>
+        <field name="search_view_id" ref="view_cw_orphan_move_search"/>
+        <field name="context">{'search_default_no_sale_line': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Tidak ada orphan moves ditemukan!
+            </p>
+            <p>
+                Semua stock moves sudah terhubung ke Sales Order Line dengan benar.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu di Inventory > Warehouse Management -->
+    <menuitem id="menu_cw_orphan_move"
+              name="CW: Orphan Stock Moves"
+              parent="stock.menu_stock_warehouse_mgmt"
+              action="action_cw_orphan_move"
+              sequence="99"
+              groups="base.group_system"
+    />
+
+</odoo>

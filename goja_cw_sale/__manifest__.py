@@ -8,10 +8,14 @@
     'description': """
     """,
     'depends': [
+        'base',
     	'sale_management',
+    	'sale_stock',
     ],
     'data': [
+        'security/ir.model.access.csv',
         'views/sale_views.xml',
+        'views/cw_orphan_move_views.xml',
     ],
     'license': 'OEEL-1',
 }

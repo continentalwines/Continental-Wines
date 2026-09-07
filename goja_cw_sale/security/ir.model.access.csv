@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_cw_orphan_move_manager,cw.orphan.move manager,model_cw_orphan_move,base.group_system,1,1,1,1
